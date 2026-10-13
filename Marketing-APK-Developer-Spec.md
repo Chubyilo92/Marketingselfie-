@@ -96,6 +96,17 @@ A settings sheet opened by a long press (about 1.5 s) on the Mission Studio logo
 - Camera not mirrored in the saved photo (the live preview may mirror, as in the real app).
 - Do not read or send location, contacts or any identifier. No third-party analytics SDKs.
 
+## 8A. Video size and frame
+
+The demos are filmed with the phone's own screen recorder, so the recording size is set by the phone, not by the app. Most Android phones are taller than 9:16 (about 20:9, for example 1080 x 2400), so a plain full-screen recording would not match the 1080 x 1920 card layout: both halves would come out taller than on the saved card, and her image (1080 x 951) would be cropped differently from the real card. The app therefore draws everything inside a fixed 9:16 frame.
+
+- **Final video:** 9:16 vertical, **1080 x 1920 px**, 30 fps, MP4 (H.264), for TikTok, Instagram Reels and YouTube Shorts. Recording at 60 fps is fine if the phone offers it, and keeps the 3-2-1 animation smooth.
+- **9:16 frame mode (default).** The whole Mission flow (camera, Tap to reveal, countdown, reveal) is laid out inside a frame with the exact 9:16 ratio: full screen width, height = width x 16 / 9, centred vertically. Leftover height above and below is a flat colour (default black, changeable in the Studio panel). Inside the frame the two halves and the 18 px line have exactly the card proportions (1080 x 951 halves), so her image crops the same way as on the saved card. The founder trims the recording to the frame in any video editor; no re-layout is needed.
+- **Fill screen mode (Studio option).** The real-app layout across the whole screen, for testing on different phone shapes.
+- **Built-in recorder (should have, later; skip in the first build if costly).** A record button that captures only the 9:16 frame at exactly 1080 x 1920, 30 fps, MP4, saved to the gallery, so no trimming is needed. It uses Android's screen-capture permission, which shows a system prompt each session.
+- **System recorder settings for the founder:** highest resolution, 30 or 60 fps, highest bitrate offered, microphone off, status bar and navigation bar hidden (Clean mode in section 7).
+- **Platform overlays.** TikTok, Reels and Shorts cover roughly the top 12%, the bottom 22% and the right edge from about 40% to 78% of the video. These are the figures used for the share card in the main plan and have not been re-checked against the current apps. Inside the frame: the mission bar sits just below the top 12% line (about 14% from the top), not directly under the X and flip buttons, so the mission text is never covered. The Tap to reveal button and the REVEAL countdown stay centred. No essential text in the right-edge band. The bottom camera row (Our cards, shutter, timer) may sit in the bottom band as in the real app, since the story does not depend on it. Mission bar position is adjustable in the Studio panel (8% to 25% from the top).
+
 ## 9. Data model (all local, on the phone)
 
 `missions.json`, one entry per mission:
@@ -114,7 +125,7 @@ A settings sheet opened by a long press (about 1.5 s) on the Mission Studio logo
 }
 ```
 
-Studio settings stored separately: names, Day N (and auto/random mode), watermark text mode, avatars, fake-time mode, partner state, reveal speed, extra-buttons toggle, clean mode, keep-photos toggle. Use Room or a plain JSON file; no backend.
+Studio settings stored separately: names, Day N (and auto/random mode), watermark text mode, avatars, fake-time mode, partner state, reveal speed, extra-buttons toggle, clean mode, keep-photos toggle, frame mode (9:16 frame or fill screen), bar colour, mission bar position. Use Room or a plain JSON file; no backend.
 
 ## 10. Technical notes
 
@@ -138,6 +149,9 @@ Studio settings stored separately: names, Day N (and auto/random mode), watermar
 12. With "Show extra buttons" off, volume keys act as Next mission and Replay reveal.
 13. Day N auto +1 increments after each reveal; Random mode stays within the set range.
 14. Runs on at least three different Android phones (including one older, one with a notch) with correct front-camera field of view.
+15. On a 1080 x 2400 phone and a 1440 x 3120 phone, 9:16 frame mode shows the same layout with flat bars above and below, and her image crops exactly as it does on the saved card.
+16. A recording trimmed to the frame is exactly 1080 x 1920 after scaling, with no UI cut off and no bar left at the edges.
+17. In the recorded frame, the mission bar is fully visible below the top 12% line, and no essential text sits in the right-edge band.
 
 ## 12. Open items for the founder
 
